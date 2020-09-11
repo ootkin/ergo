@@ -3,7 +3,6 @@ package ergo
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -126,6 +125,5 @@ func FormatError(err error) JSONError {
 
 // HandleError will return a Json representation of the error and log the error
 func HandleError(err error) (int, JSONError) {
-	log.Println(err.Error())
 	return ErrorStatusCode(err), FormatError(err)
 }
