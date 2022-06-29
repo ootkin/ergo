@@ -8,10 +8,12 @@ import (
 
 // Application error codes
 const (
-	ECONFLICT = "conflict"  // Action cannot be performed
-	EINTERNAL = "internal"  // Internal error
-	EINVALID  = "invalid"   // Validation failed
-	ENOTFOUND = "not_found" // Entity does not exists
+	ECONFLICT     = "conflict"     // Action cannot be performed
+	EINTERNAL     = "internal"     // Internal error
+	EINVALID      = "invalid"      // Validation failed
+	ENOTFOUND     = "not_found"    // Entity does not exist
+	EUNAUTHORIZED = "unauthorized" // User unauthorized
+	EFORBIDDEN    = "forbidden"    // User cannot access the resources
 )
 
 // Error defines a standard application error
@@ -88,6 +90,10 @@ func ErrorMessage(err error) string {
 			return "Bad request."
 		case ENOTFOUND:
 			return "Resource not found."
+		case EUNAUTHORIZED:
+			return "Unauthorized."
+		case EFORBIDDEN:
+			return "Forbidden."
 		}
 	}
 	return "An internal error has occurred."
@@ -106,6 +112,10 @@ func ErrorStatusCode(err error) int {
 			return http.StatusBadRequest
 		case ENOTFOUND:
 			return http.StatusNotFound
+		case EUNAUTHORIZED:
+			return http.StatusUnauthorized
+		case EFORBIDDEN:
+			return http.StatusForbidden
 		}
 	} else if isCustomError && e.Err != nil {
 		return ErrorStatusCode(e.Err)
